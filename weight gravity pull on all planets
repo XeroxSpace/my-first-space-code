@@ -1,0 +1,63 @@
+"""
+Weight on other worlds.
+
+Surface gravity in m/s^2. Your mass never changes - only the weight
+(the force pulling you down) does. Weight = mass * gravity.
+"""
+
+EARTH_G = 9.80665
+
+GRAVITY = {
+    "Mercury": 3.70,
+    "Venus": 8.87,
+    "Earth": 9.80665,
+    "Moon": 1.62,
+    "Mars": 3.72,
+    "Jupiter": 24.79,
+    "Saturn": 10.44,
+    "Uranus": 8.87,
+    "Neptune": 11.15,
+    "Pluto": 0.62,
+    "Sun": 274.0,
+}
+
+
+def mass_from_earth_weight(earth_weight_kg: float) -> float:
+    """Bathroom scales read in kg, which on Earth equals your mass."""
+    return earth_weight_kg
+
+
+def weight_newtons(mass_kg: float, gravity: float) -> float:
+    return mass_kg * gravity
+
+
+def weight_as_kg(mass_kg: float, gravity: float) -> float:
+    """What a scale calibrated for Earth would show on that world."""
+    return mass_kg * gravity / EARTH_G
+
+
+def jump_height(earth_jump_m: float, gravity: float) -> float:
+    """Same launch speed, lower gravity -> higher jump."""
+    return earth_jump_m * EARTH_G / gravity
+
+
+def main() -> None:
+    mass = float(input("Your mass in kg (what your scale says on Earth): "))
+
+    print(f"\n{'World':<10}{'Gravity':>9}{'Scale (kg)':>13}{'Force (N)':>12}{'Jump (m)':>11}")
+    print("-" * 55)
+
+    for world, g in GRAVITY.items():
+        print(
+            f"{world:<10}"
+            f"{g:>8.2f} "
+            f"{weight_as_kg(mass, g):>12.1f} "
+            f"{weight_newtons(mass, g):>11.0f} "
+            f"{jump_height(0.5, g):>10.2f}"
+        )
+
+    print("\nJump column assumes a 0.5 m standing jump on Earth.")
+
+
+if __name__ == "__main__":
+    main()
